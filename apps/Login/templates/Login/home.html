@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Login and Registration</title>
+  </head>
+  <body class="bg-dark">
+    <div class="container pt-5">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light row">
+    
+          <a class="navbar-brand col-md-10" href="{% url 'Login:home' %}">The Wall</a>                      
+          <div class="collapse navbar-collapse col-md-2" id="navbarSupportedContent">
+            <span class="navbar-text">
+              Success! Welcome, {{request.session.current_first_name}}
+            </span>  
+            <a href="{% url 'Login:index' %}" class="btn">Back</a>            
+          </div>
+        </nav>        
+        <div class="row mt-5">
+          <div class="col-md-12">
+            <div class="row">
+              <h3>Post a message</h3>
+            </div>
+            <div class="row text-right mx-auto">
+              <form action="{% url 'Login:create_message' %}" method="POST">
+                {%csrf_token%}
+                <div class="form-group mx-auto">
+                  <textarea name="message" class="form-control mx-auto" id="exampleFormControlTextarea1" rows="4" cols="130" style="resize: none"></textarea>
+                  <button class="mt-2 btn">Post</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            {%for mess in current_mess reversed%}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <h5 class="text-primary">{{mess.message_uploader.first_name}} {{mess.message_uploader.last_name}} - {{mess.created_at}}</h5>
+                </div>
+                <div class="row border rounded p-2 border-primary mb-4">
+                  <p class=" text-info h5">{{mess.message}}</p>
+                </div>
+                 <!-- *********************************************************************** - -->
+                 {%for com in current_comm reversed%}
+                 {%if com.comment_message_id == mess.id%}
+                 <div class="row">
+                   <div class="col-md-2"></div>
+                   <div class="col-md-10">
+                     <div class="row">
+                       <h7 class="text-primary">{{com.comment_uploader.first_name}} {{com.comment_uploader.last_name}} - {{com.created_at}}</h7>
+                     </div>
+                     <div class="row">
+                       <div class="col-md-1"></div>
+                       <div class="col-md-8">
+                         <p class="text-info">{{com.comment}}</p>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <hr class="mb-5">
+                 {%endif%}
+                 
+               {%endfor%}
+               <!-- *********************************************************************** - -->
+             </div>
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-11">
+                      <div class="row">
+                        <h6 class="text-primary">Post a comment</h6>
+                      </div>
+                      <div class="row text-right mx-auto">
+                        <form action="{% url 'Login:create_comment' %}" method="POST">
+                          {%csrf_token%}
+          
+                          <div class="form-group mx-auto">
+                            <textarea name="comment" class="form-control mx-auto" id="exampleFormControlTextarea1" rows="2" cols="115" style="resize: none"></textarea>
+                            <input type="hidden" name="message_id" value="{{mess.id}}" id="">
+                            <button class="mt-2 btn">Post</button>
+                          </div>
+                        </form>
+          
+                      </div>
+                      </div>
+                     
+                      
+                      
+                    </div>
+                  </div>
+                <hr>
+                
+                {%endfor%}
+              </div>
+            </div>
+        </div>
+
+    
+        
+    
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
