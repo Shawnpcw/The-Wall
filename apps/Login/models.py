@@ -10,23 +10,23 @@ class UserManager(models.Manager):
         print(Current_email)
         if len(postData['first_name']) <3:
             errors.append('First name should be at least 4 charaters!')
-        elif any(i.isdigit() for i in postData['first_name']):
+        if any(i.isdigit() for i in postData['first_name']):
             errors.append('First name should be only letters!')
-        elif len(postData['last_name']) <3:
+        if len(postData['last_name']) <3:
             errors.append('Last name should be at least 4 charaters!')
-        elif any(i.isdigit() for i in postData['last_name']):
+        if any(i.isdigit() for i in postData['last_name']):
             errors.append('Last name should be only letters!')
-        elif len(postData['email']) <3:
+        if len(postData['email']) <3:
             errors.append('Email should be at least 4 charaters!')
-        elif ('@' not in postData['email']):
+        if ('@' not in postData['email']):
             errors.append('Email needs a "@"!')
-        elif len(Current_email)>0:
+        if len(Current_email)>0:
             errors.append('Email already exists!')
-        elif len(postData['password']) <7:
+        if len(postData['password']) <7:
             errors.append('Password should be at least 8 charaters!')
-        elif postData['password'] != postData['pwcheck']:
+        if postData['password'] != postData['pwcheck']:
             errors.append('Passwords dont match!')
-
+        print(errors)
 
         if len(errors) ==0:
             hashed_pw = bcrypt.hashpw(postData['password'].encode(), bcrypt.gensalt())

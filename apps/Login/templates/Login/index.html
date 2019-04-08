@@ -13,12 +13,10 @@
   <body>
     <div class="container pt-5">
         {% if messages %}
+        
         <ul class="messages">
             {% for message in messages %}
-            <li{% if message.tags %} class="text-danger"{% endif %}>
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                Important: 
-                {% endif %}
+            <li class="text-danger">
                 {{ message }}
             </li>
             {% endfor %}

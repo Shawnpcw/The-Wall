@@ -17,6 +17,7 @@ def create_user(request):
     if 'errors' in response:
         for error in response['errors']:
             messages.error(request,error)
+        print(messages.error)
         return redirect('/login')
     else:
         request.session['user_id'] = response['user_id']      
